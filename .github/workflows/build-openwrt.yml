@@ -54,7 +54,13 @@ jobs:
 
     - name: Clone source code
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-
+      
+    - name: Import luci nft-qos
+      run: mkdir openwrt/luci && cd openwrt/luci && wget https://github.com/openwrt/luci/blob/master/luci.mk && mkdir applications && cd applications && svn co https://github.com/openwrt/luci/trunk/applications/luci-app-nft-qos ./luci-app-nft-qos  
+      
+    - name: Import nft-qos
+      run: mkdir -p openwrt/packages/net/nft-qos && cd openwrt/packages/net/nft-qos && svn co https://github.com/openwrt/packages/trunk/net/nft-qos ./
+      
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
