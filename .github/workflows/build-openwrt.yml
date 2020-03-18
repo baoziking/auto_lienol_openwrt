@@ -15,7 +15,7 @@ on:
     branches:
       - dev-master
     paths:
-      - '.config'
+      - 'sqm_nftqos.config'
   schedule:
     - cron: 0 8 * * 5
   watch:
