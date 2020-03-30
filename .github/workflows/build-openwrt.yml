@@ -13,22 +13,22 @@ on:
     types: published
   push:
     branches:
-      - dev-master
+      - master
     paths:
       - '.config'
-  schedule:
-    - cron: 0 8 * * 5
-  watch:
-    types: [started]
+#  schedule:
+#    - cron: 0 8 * * 5
+#  watch:
+#    types: started
 
 env:
-  REPO_URL: https://github.com/Lienol/openwrt
-  REPO_BRANCH: dev-master
+  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_BRANCH: master
   CONFIG_FILE: .config
   DIY_SH: diy.sh
+  SSH_ACTIONS: false
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
-  SSH_ACTIONS: false
   TZ: Asia/Shanghai
 
 jobs:
@@ -54,19 +54,7 @@ jobs:
 
     - name: Clone source code
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-      
-    - name: Import qemu-ga
-      run: cd openwrt && svn co https://github.com/openwrt/packages/trunk/utils/qemu ./package/utils/qemu
-     
-    - name: Import SQM
-      run: mkdir -p openwrt/packages/net/sqm-scripts && cd openwrt/packages/net/sqm-scripts && svn co https://github.com/openwrt/packages/trunk/net/sqm-scripts ./
-      
-    - name: Import luci nft-qos
-      run: mkdir openwrt/luci && cd openwrt/luci && wget https://github.com/openwrt/luci/blob/master/luci.mk && mkdir applications && cd applications && svn co https://github.com/openwrt/luci/trunk/applications/luci-app-nft-qos ./luci-app-nft-qos  
-      
-    - name: Import nft-qos
-      run: mkdir -p openwrt/packages/net/nft-qos && cd openwrt/packages/net/nft-qos && svn co https://github.com/openwrt/packages/trunk/net/nft-qos ./
-      
+
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
