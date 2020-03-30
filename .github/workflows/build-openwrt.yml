@@ -13,7 +13,7 @@ on:
     types: published
   push:
     branches:
-      - master
+      - dev-19.07
     paths:
       - '.config'
 #  schedule:
@@ -22,8 +22,8 @@ on:
 #    types: started
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
-  REPO_BRANCH: master
+  REPO_URL: https://github.com/Lienol/openwrt
+  REPO_BRANCH: dev-19.07
   CONFIG_FILE: .config
   DIY_SH: diy.sh
   SSH_ACTIONS: false
@@ -53,7 +53,11 @@ jobs:
         curl -fsSL https://raw.githubusercontent.com/P3TERX/dotfiles/master/.bashrc >> ~/.bashrc
 
     - name: Clone source code
-      run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+      run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt    
+      
+    - name: Import qemu-ga	
+      run: cd openwrt && svn co https://github.com/openwrt/packages/trunk/utils/qemu ./package/utils/qemu	
+      
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
